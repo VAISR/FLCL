@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+.venv/
+venv/
+.env
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Checkpoints, datasets, outputs
+ckpt/*
+!ckpt/.gitkeep
+src/data/*
+!src/data/README.md
+eval_results/
+outputs/
+.gradio/
