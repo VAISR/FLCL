@@ -111,7 +111,7 @@ The flags below are accepted by `eval/mv_recon/launch.py`, `eval/video_depth/lau
 | `--frame_random_seed` | `0` | Seed for `--ssc_score frame_random`. |
 | `--budget_mode uniform/adaptive` | `uniform` | Per-layer budget split. `uniform` = Θ/L (θ = 1). `adaptive` = diversity-driven softmax (paper Eq. 9). |
 | `--budget_temperature θ` | `0.5` | θ ∈ [0, 1] for `adaptive`; θ → 1 is uniform, smaller θ concentrates the budget. |
-| `--dap on/off` | `off` | Dynamic anchor protection from OVGGT; must stay `off` for the `frame_*` rules. |
+| `--dap on/off` | `off` | Dynamic anchor protection (token-level option); must stay `off` for the `frame_*` rules. |
 
 ### Reproducing the ablations
 
@@ -140,19 +140,6 @@ python scripts/demo/eth3d_demo.py --scene kicker
 python scripts/demo/plot_camera_frustums.py
 ```
 
-## Code map
-
-```
-src/flcl/layers/attention.py      frame_eviction(): the FLCL retention rule (mean-key signatures,
-                                  farthest-first coverage, anchor/recent pins) and the ablation modes
-src/flcl/models/aggregator.py     per-layer budget allocation (uniform / diversity-driven softmax)
-src/flcl/models/ovggt.py          model wrapper; injects the retention settings into every global block
-src/eval/                         evaluation harnesses (mv_recon, video_depth, pose_evaluation)
-scripts/eval, scripts/bench       single-GPU drivers for the benchmarks and the FPS/VRAM study
-```
-
-FLCL is implemented on top of our earlier [OVGGT](https://github.com/VAISR/OVGGT) codebase (ECCV 2026), so the model class and the `--model_name OVGGT` option keep that name; the FLCL behaviour is selected by the default flags listed above.
-
 ## Acknowledgements
 
 This code builds on the following excellent repositories:
@@ -165,8 +152,7 @@ This code builds on the following excellent repositories:
 [StreamVGGT](https://github.com/wzzheng/StreamVGGT),
 [TTT3R](https://github.com/Inception3D/TTT3R),
 [Evict3R](https://github.com/soroush-mim/evict3r),
-[InfiniteVGGT](https://github.com/AutoLab-SAI-SJTU/InfiniteVGGT),
-[OVGGT](https://github.com/VAISR/OVGGT).
+[InfiniteVGGT](https://github.com/AutoLab-SAI-SJTU/InfiniteVGGT).
 Many thanks to their authors.
 
 ## Citation
